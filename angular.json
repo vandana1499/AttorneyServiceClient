@@ -120,5 +120,8 @@
       }
     }
   },
-  "defaultProject": "AttorneyServiceClient"
+  "defaultProject": "AttorneyServiceClient",
+  "cli": {
+    "analytics": false
+  }
 }
