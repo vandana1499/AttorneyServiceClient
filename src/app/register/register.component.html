@@ -1,25 +1,192 @@
+<div class="container">
+  <div class="jumbotron p-5">
+    <h1 class="display-4">Register the Attorney service</h1>
+    <div class="spinner-border text-primary" role="status" *ngIf="loading">
+        <span class="sr-only">Loading...</span>
+      </div>
+    <form class="" [formGroup]="AttorneyForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="FirstName">First Name</label>
+        <small id="FNameRequired" class="form-text text-danger"
+          >* Required</small
+        >
 
-<div class="container-fluid">
-    <form>
+        <input
+          formControlName="FirstName"
+          type="text"
+          class="form-control"
+          id="FirstName"
+          placeholder="Enter your first name"
+          required
+          aria-describedby="FNameRequired"
+        />
+      </div>
+      <div class="form-group">
+        <label for="MiddleName">Middle Name</label>
+        <input
+          type="text"
+          formControlName="MiddleName"
+          class="form-control"
+          id="MiddleName"
+          placeholder="Enter your middle name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="LastName">Last Name</label>
+        <small id="LNameRequired" class="form-text text-danger"
+          >* Required</small
+        >
+
+        <input
+          type="text"
+          formControlName="LastName"
+          class="form-control"
+          id="LastName"
+          placeholder="Enter your last name"
+          required
+          aria-describedby="LNameRequired"
+        />
+      </div>
+      <div class="form-group">
+        <label for="Email">Email address</label>
+        <small id="EmailRequired" class="form-text text-danger"
+          >* Required</small
+        >
+
+        <input
+          formControlName="Email"
+          type="email"
+          class="form-control"
+          id="Email"
+          placeholder="Enter email"
+          required
+          aria-describedby="EmailRequired"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="Specialization">Specialization</label>
+        <small id="SpecializationRequired" class="form-text text-danger"
+          >* Required</small
+        >
+
+        <select
+          class="custom-select mr-sm-2"
+          formControlName="Specialization"
+          id="Specialization"
+          required
+          aria-describedby="SpecializationRequired"
+        >
+          <option value="" selected disabled>Choose Specialization</option>
+          <option value="0">Tax</option>
+          <option value="1">Finance</option>
+          <option value="2">Property</option>
+        </select>
+      </div>
+
+      <div formGroupName="Address">
+      
         <div class="form-group">
-            <label for="Fname">First Name</label>
-            <input type="text" class="form-control" id="Fname"  placeholder="Enter your first name">
-          </div>
-          <div class="form-group">
-            <label for="Mname">First Name</label>
-            <input type="text" class="form-control" id="Mname"  placeholder="Enter your middle name">
-          </div>
-          <div class="form-group">
-            <label for="Lname">Last Name</label>
-            <input type="text" class="form-control" id="Lname"  placeholder="Enter your last name">
-          </div>
-          
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          <label for="Lane1">Lane1</label>
+          <small id="Lane1" class="form-text text-danger">* Required</small>
+
+          <input
+            formControlName="Lane1"
+            type="text"
+            class="form-control"
+            id="Lane1"
+            placeholder="Lane 1"
+            required
+            aria-describedby="Lane1"
+          />
         </div>
-       
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+        <div class="form-group">
+          <label for="Lane2">Lane2</label>
+
+          <input
+            type="text"
+            formControlName="Lane2"
+            class="form-control"
+            id="Lane2"
+            placeholder="Lane 2"
+          />
+        </div>
+        <div class="form-group">
+          <label for="City">City</label>
+          <small id="City" class="form-text text-danger">* Required</small>
+
+          <select
+            class="custom-select mr-sm-2"
+            formControlName="City"
+            id="City"
+            required
+            aria-describedby="City"
+          >
+            <option value="" selected disabled>Choose Cities</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Siliguri">Siliguri</option>
+            <option value="Pune">Pune</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="Zip">Zip</label>
+          <small id="Zip" class="form-text text-danger">* Required ( 6 digit)</small>
+
+          <input
+            type="text"
+            formControlName="Zip"
+            class="form-control"
+            id="Zip"
+            placeholder="Zip"
+            required
+            aria-describedby="Zip"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="State">State</label>
+          <small id="State" class="form-text text-danger">* Required</small>
+
+          <input
+            type="text"
+            formControlName="State"
+            class="form-control"
+            id="State"
+            placeholder="State"
+            required
+            aria-describedby="State"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!AttorneyForm.valid"
+        data-toggle="modal" data-target="#modal"
+      >
+        Submit
+      </button>
+    </form>
+    <div class="modal" tabindex="-1" role="dialog" id="modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+             
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>
+                  {{msg}}
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
 </div>
