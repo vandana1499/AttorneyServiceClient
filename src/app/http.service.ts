@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable,throwError} from "rxjs";
-import {catchError,retry} from "rxjs/operators";
+
 
 
 
@@ -23,5 +22,28 @@ export class HttpService {
           JSON.stringify(data),
           {headers:headers}
     );
+  }
+  getAllProfiles()
+  {
+    return this.http.get("https://localhost:44322/attorney-registration/getAllProfiles");
+  }
+  getAllProfilesByCity(city)
+  {
+    
+    return this.http.get("https://localhost:44322/attorney-registration/getAllProfiles/"+city);
+  }
+  getDistinctCities()
+  {
+    return this.http.get("https://localhost:44322/attorney-registration/getAllProfilesByDistinctCity");
+  }
+  deleteById(id)
+  {
+    return this.http.delete("https://localhost:44322/attorney-registration/delete-profile/"+id);
+  }
+  updateById(id,data)
+  {
+    let headers=new HttpHeaders();
+    headers=headers.set('Content-Type','application/json;charset=utf-8');
+    return this.http.put("https://localhost:44322/attorney-registration/update-profile/"+id,JSON.stringify(data),{headers:headers})
   }
 }

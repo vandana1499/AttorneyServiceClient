@@ -1,9 +1,7 @@
 <div class="container">
   <div class="jumbotron p-5">
     <h1 class="display-4">Register the Attorney service</h1>
-    <div class="spinner-border text-primary" role="status" *ngIf="loading">
-        <span class="sr-only">Loading...</span>
-      </div>
+  
     <form class="" [formGroup]="AttorneyForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="FirstName">First Name</label>
@@ -114,19 +112,16 @@
         <div class="form-group">
           <label for="City">City</label>
           <small id="City" class="form-text text-danger">* Required</small>
-
-          <select
-            class="custom-select mr-sm-2"
+          <input
             formControlName="City"
+            type="text"
+            class="form-control"
             id="City"
+            placeholder="Enter City"
             required
             aria-describedby="City"
-          >
-            <option value="" selected disabled>Choose Cities</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Siliguri">Siliguri</option>
-            <option value="Pune">Pune</option>
-          </select>
+          />
+          
         </div>
         <div class="form-group">
           <label for="Zip">Zip</label>
@@ -171,20 +166,20 @@
     <div class="modal" tabindex="-1" role="dialog" id="modal">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="modal-header">
+          
              
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" class="close btn-danger" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>
+          
             <div class="modal-body">
-              <p>
+              <p class="text-success">
                   {{msg}}
               </p>
             </div>
-            <div class="modal-footer">
+           
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+          
           </div>
         </div>
       </div>

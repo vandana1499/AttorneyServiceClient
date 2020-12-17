@@ -13,7 +13,7 @@ import {throwError} from "rxjs";
 })
 export class RegisterComponent implements OnInit {
 msg="";
-loading=false;
+
 AttorneyForm=this.fb.group({
   FirstName : ['',Validators.required],
   MiddleName : [''],
@@ -37,16 +37,17 @@ AttorneyForm=this.fb.group({
   }
   onSubmit()
   {
-    this.loading=true;
+   
     console.log(this.AttorneyForm.value);
     var val=this.AttorneyForm.get("Specialization").value;
     this.AttorneyForm.patchValue({
       Specialization:parseInt(val),
     });
     this.http.createProfile(this.AttorneyForm.value).subscribe(res=>{
-      this.msg="Sucessfully submitted"
+     
       this.AttorneyForm.reset();
-      this.loading=false;
+      this.msg="Sucessfully submitted"
+     
     }),
     (error:HttpErrorResponse)=>{
      
@@ -61,11 +62,8 @@ AttorneyForm=this.fb.group({
           `body was: ${error.error}`);
           this.msg= `Backend returned code ${error.status}, ` +
           `body was: ${error.error}`;
-      }
-      
-      
+      }     
         this.msg='Something bad happened; please try again later.';
-    
     }
   }
 

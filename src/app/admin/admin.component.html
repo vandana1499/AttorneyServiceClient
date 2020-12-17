@@ -1,0 +1,63 @@
+<div class="container-fluid">
+    <h1 class="display-4 text-center">
+        List of all attorneys
+    </h1>
+    
+    <div class="row mt-4 justify-content-end">
+        <div class="col-2">
+            <h3 class="lead text-center">Filter by City</h3>
+            
+        </div>
+        <div class="col-4">
+            <form [formGroup]="CityForm" (ngSubmit)="onSubmit()" class="form-inline ">
+                <select 
+                class="custom-select mx-2" 
+                id="City" 
+                formControlName="City" >
+                <option value="" selected disabled>Choose any city</option>
+                <option value="All">All</option>
+                    <option value="{{city}}" *ngFor="let city of distinctCities">{{city}}</option>
+                </select>
+                <button
+                type="submit"
+                class="btn btn-primary"
+              >
+                Search
+              </button>
+            </form>
+          </div>
+      
+    </div>
+        <div class="mt-4">
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">FirstName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let d of profiles">  
+                  <tr >
+                    <th scope="row" class="text-center">{{d.id}}</th>
+                    <td>{{d.firstName}}</td>
+                    <td>{{d.lastName}}</td>
+                    <td>{{d.email}}</td>
+                    <td>{{d.address.city}}</td>
+                    <td>
+                        <a routerLink="/edit/{{d.id}}">Edit</a>
+                       
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" (click)="onDelete(d.id)">Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    
+</div>
