@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../http.service";
 import {HttpErrorResponse} from "@angular/common/http"
 import {FormBuilder} from "@angular/forms";
+import {Location} from "@angular/common"
+import {ActivatedRoute} from "@angular/router"
 
 @Component({
  
@@ -9,8 +11,6 @@ import {FormBuilder} from "@angular/forms";
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-
-  constructor(private http:HttpService,private fb:FormBuilder) { }
   profiles;
   distinctCities;
   deleteResponse;
@@ -18,11 +18,17 @@ export class AdminComponent implements OnInit {
   CityForm=this.fb.group({
     City:['']
   })
+  constructor(private http:HttpService,private fb:FormBuilder,private location:Location,private route:ActivatedRoute) {
+  
+
+   }
+ 
   ngOnInit(): void {
-    this.http.getAllProfiles().subscribe((res)=>{
-      this.profiles=res;
-      console.log(this.profiles);
-    })
+    
+    this.route.data.subscribe(data=>{
+      this.profiles=data['data'];
+     
+      })
     this.http.getDistinctCities().subscribe((res)=>{
       this.distinctCities=res;
       console.log(this.distinctCities)
@@ -73,6 +79,12 @@ export class AdminComponent implements OnInit {
     
     }
   }
+
+  goBack()
+  {
+    this.location.back();
+  }
+
  
 
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 import { ActivatedRoute, Router } from "@angular/router"
 import { HttpService } from "../http.service";
 import {HttpErrorResponse} from "@angular/common/http"
+import {Location} from "@angular/common";
 
 @Component({
 
@@ -15,10 +16,11 @@ export class EditComponent implements OnInit {
   profiles;
   value;
   AttorneyForm: FormGroup;
+  error;
 
 
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router:Router,private http: HttpService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router:Router,private http: HttpService,private location:Location) {
 
     this.AttorneyForm = this.fb.group({
       FirstName: ['', Validators.required],
@@ -50,6 +52,16 @@ export class EditComponent implements OnInit {
         return x.id === this.id
 
       });
+     
+      if(this.value.length==0)
+      {
+        this.navigate();
+
+      }
+      else
+      {
+
+      
 
       this.AttorneyForm.patchValue({
         FirstName: this.value[0].firstName,
@@ -65,6 +77,7 @@ export class EditComponent implements OnInit {
           City: this.value[0].address.city
         }
       })
+    }
 
 
 
@@ -77,16 +90,38 @@ export class EditComponent implements OnInit {
   onSubmit() {
     console.log(this.AttorneyForm.value)
     this.http.updateById(this.id,this.AttorneyForm.value).subscribe((res)=>{
-      console.log(res)
+      
       this.msg=res;
+      this.navigate()
      
-    })
+    }),
+    (error:HttpErrorResponse)=>{
+     
+      if (error.error instanceof ErrorEvent) {
+        
+        console.error('An error occurred:', error.error.message);
+        this.error=error.error.message;
+        this.navigate()
+      } else {
+        
+        console.error(
+          `Backend returned code ${error.status}, ` +
+          `body was: ${error.error}`);
+          this.error= `Backend returned code ${error.status}, ` +
+          `body was: ${error.error}`;
+          this.navigate()
+      }     
+    }
  
   }
 
   navigate()
   {
     this.router.navigateByUrl('/admin');
+  }
+  goBack()
+  {
+    this.location.back();
   }
 
 }

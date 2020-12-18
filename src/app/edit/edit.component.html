@@ -1,7 +1,15 @@
 
-<div class="container">
+<div class="container-fluid">
     <div class="jumbotron p-5">
-      <h1 class="display-4">Editthe Attorney service</h1>
+      <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="goBack()"
+    >
+    Go back
+  </button>
+      <h1 class="display-4">Edit the Attorney service</h1>
+     
     
       <form class="" [formGroup]="AttorneyForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
@@ -177,7 +185,23 @@
               </div>
               <div class="modal-body">
                 <p class="text-success" *ngIf="msg">
-                    FirstName:{{msg.FirstName}}
+                    FirstName:{{msg.firstName}}
+                    <br/>
+                    LastName:{{msg.lastName}} 
+                    <br/>
+                    MiddleName:{{msg.middleName}} 
+                    <br/>
+                    Lane1:{{msg.address.lane1}}
+                    <br/>
+                    Lane2:{{msg.address.lane2}}
+                    <br/>
+                    City:{{msg.address.city}}
+                    <br/>
+                    State:{{msg.address.state}} 
+                    <br/>
+                    Zip:{{msg.address.zip}}
+                    <br/>
+                    Email:{{msg.email}} 
                 </p>
               </div>
              <div class="modal-footer">
