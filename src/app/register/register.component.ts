@@ -46,13 +46,18 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     this.isSubmitted=true;
-    var val = this.AttorneyForm.get("Specialization").value;
-    
-    this.AttorneyForm.patchValue({
-      Specialization: parseInt(val),
-    });
+   
+   
     if (this.AttorneyForm.valid) {
+      var val = this.AttorneyForm.get("Specialization").value;
+      if(!isNaN(val))
+      {
+        this.AttorneyForm.patchValue({
+          Specialization: parseInt(val),
+        });
+      }
       this.http.createProfile(this.AttorneyForm.value).subscribe(res => {
+        console.log(this.AttorneyForm.value)
         this.msg = "Sucessfully submitted"
         this.AttorneyForm.reset();
 
