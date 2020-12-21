@@ -1,15 +1,18 @@
 <div class="container">
   <div class="jumbotron p-5">
-    <button type="submit" class="btn btn-primary" (click)="goBack()">
+    <button  class="btn btn-primary" (click)="goBack()">
       Go back
     </button>
     <h1 class="display-4">Register the Attorney service</h1>
 
-    <form class="" [formGroup]="AttorneyForm"  #ngForm="ngForm" (ngSubmit)="onSubmit()">
+    <form class="" [formGroup]="AttorneyForm"  #ngForm="ngForm" >
       <div class="form-group">
         <label for="FirstName">First Name</label>
         <div *ngIf="!f.FirstName.valid && (f.FirstName.touched || ngForm.submitted)" >
           <div *ngIf="f.FirstName.errors.required" class="text-danger font-weight-light">*First Name is required</div>
+          <div *ngIf="f.FirstName.errors.minLength" class="text-danger font-weight-light">*Minimum length of name is 3</div>
+          <div *ngIf="f.FirstName.errors.maxLength" class="text-danger font-weight-light">*Maximum length of name is 20</div>
+          
         </div>
         <input
           formControlName="FirstName"
@@ -57,6 +60,7 @@
         <div *ngIf="!f.Email.valid && (f.Email.touched || ngForm.submitted)" >
           <div *ngIf="f.Email.errors.required" class="text-danger font-weight-light">*Email is required</div>
           <div *ngIf="f.Email.errors.email" class="text-danger font-weight-light">*Valid email required</div>
+          <div *ngIf="f.Email.errors.uniqueEmail" class="text-danger font-weight-light">*Email already exist</div>
           
         </div>
 
@@ -77,7 +81,7 @@
      
           <div 
           class="text-danger font-weight-light" 
-          *ngIf="f.Specialization.errors?.required && isSubmitted"
+          *ngIf="f.Specialization.errors?.required && ngForm.submitted"
           >
           *Specialization is required.
         </div>
@@ -87,8 +91,8 @@
           id="Specialization"
           required
         >
-        <option value=""> Choose Specialization</option>
-          <option value={{spec}} *ngFor="let spec of Specialization">
+        <option value="" selected disabled> Choose Specialization</option>
+          <option value={{i}} *ngFor="let spec of Specialization;let i = index">
             {{spec}}
           </option>
         </select>
@@ -172,15 +176,17 @@
       </div>
 
       <button
-        type="submit"
+        type="button"
         class="btn btn-primary"
+        (click)="onSubmit()"
          data-toggle="modal"
         data-target="#modal"
       >
         Submit
       </button>
+     
     </form>
-    <div class="modal" tabindex="-1" role="dialog" id="modal">
+    <div class="modal" tabindex="-1" role="dialog" id="modal" >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <button

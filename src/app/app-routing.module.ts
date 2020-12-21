@@ -8,9 +8,9 @@ import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   
-  {path:"register",component:RegisterComponent},
+  {path:"register",component:RegisterComponent,resolve:{data:DataResolver}},
   {path:"admin",component:AdminComponent,resolve:{data:DataResolver}},
-  {path:"edit/:id",component:EditComponent},
+  {path:"edit/:id",component:EditComponent,resolve:{data:DataResolver}},
   {path:"",component:HomeComponent}
 ];
 

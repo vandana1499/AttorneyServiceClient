@@ -2,7 +2,7 @@
 <div class="container-fluid">
     <div class="jumbotron p-5">
       <button
-      type="submit"
+     
       class="btn btn-primary"
       (click)="goBack()"
     >
@@ -11,13 +11,15 @@
       <h1 class="display-4">Edit the Attorney service</h1>
      
     
-      <form class="" [formGroup]="AttorneyForm" (ngSubmit)="onSubmit()">
+      <form class="" [formGroup]="AttorneyForm"  #ngForm="ngForm">
         <div class="form-group">
           <label for="FirstName">First Name</label>
-          <small id="FNameRequired" class="form-text text-danger"
-            >* Required</small
-          >
-  
+          <div *ngIf="!f.FirstName.valid && (f.FirstName.touched || ngForm.submitted)" >
+            <div *ngIf="f.FirstName.errors.required" class="text-danger font-weight-light">*First Name is required</div>
+            <div *ngIf="f.FirstName.errors.minLength" class="text-danger font-weight-light">*Minimum length of name is 3</div>
+            <div *ngIf="f.FirstName.errors.maxLength" class="text-danger font-weight-light">*Maximum length of name is 20</div>
+            
+          </div>
           <input
             formControlName="FirstName"
             type="text"
@@ -41,10 +43,9 @@
         </div>
         <div class="form-group">
           <label for="LastName">Last Name</label>
-          <small id="LNameRequired" class="form-text text-danger"
-            >* Required</small
-          >
-  
+          <div *ngIf="!f.LastName.valid && (f.LastName.touched || ngForm.submitted)" >
+            <div *ngIf="f.LastName.errors.required" class="text-danger font-weight-light">*Last Name is required</div>
+          </div>
           <input
             type="text"
             formControlName="LastName"
@@ -57,10 +58,14 @@
         </div>
         <div class="form-group">
           <label for="Email">Email address</label>
-          <small id="EmailRequired" class="form-text text-danger"
-            >* Required</small
-          >
-  
+          
+          
+          <div *ngIf="!f.Email.valid && (f.Email.touched || ngForm.submitted)" >
+            <div *ngIf="f.Email.errors.required" class="text-danger font-weight-light">*Email is required</div>
+            <div *ngIf="f.Email.errors.email" class="text-danger font-weight-light">*Valid email required</div>
+          <div *ngIf="f.Email.errors.uniqueEmail" class="text-danger font-weight-light">*Email already exist</div>
+            
+          </div>
           <input
             formControlName="Email"
             type="email"
@@ -74,10 +79,12 @@
   
         <div class="form-group">
           <label for="Specialization">Specialization</label>
-          <small id="SpecializationRequired" class="form-text text-danger"
-            >* Required</small
+          <div 
+          class="text-danger font-weight-light" 
+          *ngIf="f.Specialization.errors?.required && ngForm.submitted"
           >
-  
+          *Specialization is required.
+        </div>
           <select
             class="custom-select mr-sm-2"
             formControlName="Specialization"
@@ -86,9 +93,9 @@
             aria-describedby="SpecializationRequired"
           >
             <option value="" selected disabled>Choose Specialization</option>
-            <option value="0">Tax</option>
-            <option value="1">Finance</option>
-            <option value="2">Property</option>
+            <option value={{i}} *ngFor="let spec of Specialization;let i = index">
+              {{spec}}
+            </option>
           </select>
         </div>
   
@@ -96,8 +103,9 @@
         
           <div class="form-group">
             <label for="Lane1">Lane1</label>
-            <small id="Lane1" class="form-text text-danger">* Required</small>
-  
+            <div *ngIf="!f.Address['controls'].Lane1.valid && (f.Address['controls'].Lane1.touched || ngForm.submitted)" >
+              <div *ngIf="f.Address['controls'].Lane1.errors.required" class="text-danger font-weight-light">*Lane1 is required</div>
+            </div>
             <input
               formControlName="Lane1"
               type="text"
@@ -121,7 +129,9 @@
           </div>
           <div class="form-group">
             <label for="City">City</label>
-            <small id="City" class="form-text text-danger">* Required</small>
+            <div *ngIf="!f.Address['controls'].City.valid && (f.Address['controls'].City.touched || ngForm.submitted)" >
+              <div *ngIf="f.Address['controls'].City.errors.required" class="text-danger font-weight-light">*City is required</div>
+            </div>
             <input
               formControlName="City"
               type="text"
@@ -135,9 +145,12 @@
           </div>
           <div class="form-group">
             <label for="Zip">Zip</label>
-            <small id="Zip" class="form-text text-danger">* Required ( 6 digit)</small>
-  
-            <input
+              <div *ngIf="!f.Address['controls'].Zip.valid && (f.Address['controls'].Zip.touched || ngForm.submitted)" >
+                <div *ngIf="f.Address['controls'].Zip.errors.required" class="text-danger font-weight-light">*Zip is required</div>
+                <div *ngIf="f.Address['controls'].Zip.errors.pattern" class="text-danger font-weight-light">*Zip requires only 6 digit</div>
+    
+              </div>
+              <input
               type="text"
               formControlName="Zip"
               class="form-control"
@@ -150,8 +163,9 @@
   
           <div class="form-group">
             <label for="State">State</label>
-            <small id="State" class="form-text text-danger">* Required</small>
-  
+            <div *ngIf="!f.Address['controls'].State.valid && (f.Address['controls'].State.touched || ngForm.submitted)" >
+              <div *ngIf="f.Address['controls'].State.errors.required" class="text-danger font-weight-light">*State is required</div>
+            </div>
             <input
               type="text"
               formControlName="State"
@@ -165,9 +179,9 @@
         </div>
   
         <button
-          type="submit"
+          type="button"
           class="btn btn-primary"
-          [disabled]="!AttorneyForm.valid"
+          (click)="onSubmit()"
           data-toggle="modal" data-target="#modal"
         >
           Submit
@@ -203,9 +217,16 @@
                     <br/>
                     Email:{{msg.email}} 
                 </p>
+                <p *ngIf="error">
+                  {{error}}
+                </p>
               </div>
              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="navigate()">Close</button>
+                <button
+                 type="button" class="btn btn-danger" 
+                 data-dismiss="modal"
+                 (click)="navigate()"
+                  >Close</button>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="jumbotron p-5">
     <button
-    type="submit"
+ 
     class="btn btn-primary"
     (click)="goBack()"
   >
@@ -37,7 +37,7 @@
       
     </div>
         <div class="mt-4">
-            <table class="table">
+            <table class="table" *ngIf="profiles">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Id</th>
@@ -66,6 +66,12 @@
                   </tr>
                 </tbody>
               </table>
+              <div *ngIf="!profiles">
+                <p>
+                  No profiles added yet 
+                  
+                </p>
+              </div>
         </div>
     
 </div>
